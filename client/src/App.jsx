@@ -1,12 +1,19 @@
-import { useState } from 'react'
-import './App.css'
+
+import Home from "../src/pages/home/home";
+import Dashboard from "./pages/dashboard/dashboard";
+import { Route , Routes} from 'react-router-dom';
+
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div></div>
-  )
+    <div className="App">
+    <Routes>
+    <Route path="/" element={<Home/>}/>
+    <Route path="/dashboard" element={<Dashboard/>}/>
+    </Routes>
+    </div>
+  );
 }
 
-export default App
+export default App;
