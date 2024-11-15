@@ -1,0 +1,47 @@
+/* Overall styling */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Header styling */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #556c77;
+    padding: 10px 20px;
+    color: #fff;
+  }
+  
+  /* Logo styling */
+  .logo {
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-icon {
+    margin-right: 8px;
+    font-size: 24px;
+    color: #3fc1c9; /* Teal color for the icon */
+  }
+  
+  /* Button styling */
+  .get-started {
+    background-color: #e6f7f8;
+    color: #3fc1c9;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+  }
+  
+  .get-started:hover {
+    background-color: #c4e3e5;
+  }
+  
