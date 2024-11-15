@@ -14,7 +14,7 @@ const getAllData = async (req, res) => {
     }
 
     // List of amenities to fetch
-    const amenities = ["hospital", "clinic", "pharmacy", "doctor"];
+    const amenities = ["hospital", "clinic", "pharmacy"];
 
     // Fetch data for each amenity
     const results = [];
