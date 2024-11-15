@@ -1,26 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import * as turf from '@turf/turf'; // Import turf for spatial operations
 
 const Map = () => {
   const [userLocation, setUserLocation] = useState(null);
-  const [facilities, setFacilities] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // Fetch medical facilities data from your local JSON file
-  useEffect(() => {
-    fetch('csvjson.json')  // Adjust the path if needed
-      .then(response => response.json())
-      .then(data => {
-        setFacilities(data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error loading JSON:', error);
-        setLoading(false);
-      });
-  }, []);
+  const [hospitals, setHospitals] = useState([]); // State to store hospital data
 
   // Get the user's location using the Geolocation API
   useEffect(() => {
@@ -39,35 +25,80 @@ const Map = () => {
     }
   }, []);
 
-  // Function to calculate the distance between two lat/lon points (in meters)
-  const getDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371; // Radius of the Earth in kilometers
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-              Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c * 1000; // Distance in meters
+  // Generate coordinates to form a square (or polygon) around the user's location
+  const generatePolygonCoordinates = (lat, lon) => {
+    const offset = 0.01; // Define the offset to create a polygon around the user's location
+
+    return [
+      [lon - offset, lat + offset], // Top-left
+      [lon + offset, lat + offset], // Top-right
+      [lon + offset, lat - offset], // Bottom-right
+      [lon - offset, lat - offset], // Bottom-left
+      [lon - offset, lat + offset], // Closing the polygon
+    ];
   };
 
-  // Filter facilities within a certain distance from the user's location
-  const getNearbyFacilities = () => {
-    if (!userLocation || !facilities.length) return [];
+  // Handle sending location and polygon data
+  const handleSendLocation = async () => {
+    if (userLocation) {
+      const coordinates = generatePolygonCoordinates(userLocation.lat, userLocation.lon);
+      try {
+        const response = await fetch('http://localhost:3000/getAllData', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ coordinates: coordinates }), // Send coordinates as polygon
+        });
 
-    return facilities.filter(facility => {
-      const distance = getDistance(userLocation.lat, userLocation.lon, facility.latitude, facility.longitude);
-      return distance < 5000; // Facilities within 5 km
-    });
+        const data = await response.json();
+        if (response.ok && data.success) {
+          // Collect all features from all amenities
+          const allFeatures = data.data.flatMap(amenity => amenity.data.features);
+          setHospitals(allFeatures); // Update hospitals state with all fetched data
+          setErrorMessage('');
+          console.log('Location sent successfully!');
+        } else {
+          console.error('Failed to send location');
+        }
+      } catch (error) {
+        console.error('Error sending location:', error);
+      }
+    } else {
+      console.log('Location is not available yet');
+    }
   };
 
-  // Render loading or the map with markers
-  if (loading) {
-    return <div>Loading...</div>;
+// Function to check if a point (hospital) is inside the polygon
+const isHospitalInPolygon = (hospital) => {
+  const hospitalCoordinates = hospital.geometry.coordinates;
+
+  // Check if the coordinates are valid
+  if (!Array.isArray(hospitalCoordinates) || hospitalCoordinates.length !== 2) {
+    console.error('Invalid coordinates for hospital:', hospital);
+    return false; // Skip if coordinates are invalid
   }
+
+  const [lon, lat] = hospitalCoordinates; // Ensure correct order: [longitude, latitude]
+
+  // Ensure the coordinates are numbers
+  if (isNaN(lon) || isNaN(lat)) {
+    console.error('Invalid coordinate values:', hospitalCoordinates);
+    return false; // Skip if coordinates are not valid numbers
+  }
+
+  const polygon = turf.polygon([generatePolygonCoordinates(userLocation.lat, userLocation.lon)]);
+  const point = turf.point([lon, lat]);
+
+  return turf.booleanPointInPolygon(point, polygon); // Check if hospital is within the polygon
+};
+
 
   return (
     <div style={{ width: '100%', height: '600px' }}>
+      <button onClick={handleSendLocation} disabled={!userLocation}>
+        Send Location
+      </button>
       {userLocation && (
         <MapContainer
           center={[userLocation.lat, userLocation.lon]}
@@ -82,25 +113,33 @@ const Map = () => {
           <Marker position={[userLocation.lat, userLocation.lon]}>
             <Popup>You are here</Popup>
           </Marker>
-          {/* Medical facilities markers */}
-          {getNearbyFacilities().map(facility => (
-            <Marker
-              key={facility.osm_id}
-              position={[facility.latitude, facility.longitude]}
-              icon={new L.Icon({
-                iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png', // Custom marker icon
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-              })}
-            >
-              <Popup>
-                <strong>{facility.name}</strong><br />
-                Opening Hours: {facility.opening_hours}<br />
-                Distance: {getDistance(userLocation.lat, userLocation.lon, facility.latitude, facility.longitude).toFixed(2)} meters
-              </Popup>
-            </Marker>
-          ))}
+          {/* Polygon around the user */}
+          <Polygon positions={generatePolygonCoordinates(userLocation.lat, userLocation.lon)} />
+
+          {/* Render hospital markers based on the fetched data */}
+          {hospitals.map((hospital, index) => {
+            const { name, email, internet_access,website,amenity,phone } = hospital.properties.tags;
+            const lat = hospital.geometry.coordinates[1];
+            const lon = hospital.geometry.coordinates[0];
+
+            // Check if the hospital is inside the polygon before rendering the marker
+            if (!isHospitalInPolygon(hospital)) {
+              return null; // Skip if hospital is outside the polygon
+            }
+
+            return (
+              <Marker key={index} position={[lat, lon]}>
+                <Popup>
+                  <h3>{name}</h3>
+                  <p>email:<strong></strong> {email || 'N/A'}</p>
+                  <p><strong>phone:</strong> {phone || 'N/A'}</p>
+                  <p><strong>amenity:</strong> {amenity || 'N/A'}</p>
+                  <p><strong>Internet Access</strong> {internet_access || 'N/A'}</p>
+                  {website && <p><a href={website} target="_blank" rel="noopener noreferrer">Visit Website</a></p>}
+                </Popup>
+              </Marker>
+            );
+          })}
         </MapContainer>
       )}
     </div>
