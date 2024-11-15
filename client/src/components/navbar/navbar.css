@@ -33,29 +33,43 @@ img{
     
 }
 
-.navbar>.profile{
+.navbar>.input{
+    height:3vh;
+    /* border:solid; */
+    flex:7;
+    align-items: center;
     
+}
+
+.navbar>.profile{
+    /* border:solid; */
     flex:1;
     margin-right:5vh;
     margin-left:15vh;
 }
 
-.logoplusname>img{
-    margin:1vh;
-    margin-top:2vh
- }
- 
- .logoplusname>p{
-    font-size: 5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-    font-weight: bold;
-    font-family: inter;
-    font-size:x-large;
-   
+a{
+  margin-left:6vh;
+    
+}
 
- }
+input{
+    border-radius: 25px;
+    width:60%;
+    height: 4vh; 
+    margin-bottom:1.5vh; 
+    margin-left:5vh;
+}
+
+.logoplusname>img{
+   margin:1vh;
+   margin-top:2vh
+}
+
+.logoplusname>p{
+    text-align: center;
+    font-size: 3vh;
+}
 
 ::placeholder {
     text-align: center; 

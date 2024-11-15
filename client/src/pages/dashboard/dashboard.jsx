@@ -11,7 +11,7 @@ const Dashboard = () => {
     <header><Navbar /></header>
     <aside> <Sidebar /></aside>
     <div className="main-content">
-    <main>
+    
     <div className="map-container">
             <div className="legend">
               <p><span className="hospital-dot"></span> Hospital</p>
@@ -29,7 +29,7 @@ const Dashboard = () => {
               <button>-</button>
             </div>
             </div>
-    </main>
+    
     </div>
   </div>
     </>
