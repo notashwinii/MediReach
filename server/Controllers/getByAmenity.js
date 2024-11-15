@@ -12,7 +12,7 @@ const getByAmenity = async (req, res) => {
       });
     }
 
-    console.log(amenity);
+    // console.log(amenity);
 
     if (!amenity) {
       return res.status(400).json({
@@ -21,7 +21,7 @@ const getByAmenity = async (req, res) => {
       });
     }
 
-    const data = await getData(coordinates, amenity);
+    const data = await getData(coordinates, amenity.split(","));
 
     res.status(200).json({
       success: true,
