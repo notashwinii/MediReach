@@ -24,7 +24,7 @@ const Map = () => {
 
   // Get the user's location using the Geolocation API
   useEffect(() => {
-    if (navigator.geolocation) {
+    if (navigator.geolocation) {  
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setUserLocation({
