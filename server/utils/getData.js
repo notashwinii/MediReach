@@ -10,8 +10,6 @@ const getData = async (coordinates, amenities) => {
       throw new Error("Invalid input: Amenities must be a non-empty array.");
     }
 
-    console.log(amenities);
-
     // Construct the payload
     const payload = {
       geometry: {
