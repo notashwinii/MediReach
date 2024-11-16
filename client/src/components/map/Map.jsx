@@ -12,7 +12,7 @@ const Map = () => {
 
   // Get the user's location using the Geolocation API
   useEffect(() => {
-    if (navigator.geolocation) {  
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setUserLocation({
@@ -56,9 +56,8 @@ const Map = () => {
         const data = await response.json();
         if (response.ok && data.success) {
           // Collect all features from all amenities
-          const allFeatures = data.data.flatMap(amenity => amenity.data.features);
+          const allFeatures = data.data.flatMap((amenity) => amenity.data.features);
           setHospitals(allFeatures); // Update hospitals state with all fetched data
-          setErrorMessage('');
           console.log('Location sent successfully!');
         } else {
           console.error('Failed to send location');
@@ -71,36 +70,73 @@ const Map = () => {
     }
   };
 
-// Function to check if a point (hospital) is inside the polygon
-const isHospitalInPolygon = (hospital) => {
-  const hospitalCoordinates = hospital.geometry.coordinates;
+  // Handle fetching the nearest facility
+  const handleGetNearestFacility = async () => {
+    if (userLocation) {
+      const coordinates = generatePolygonCoordinates(userLocation.lat, userLocation.lon);
+      try {
+        const response = await fetch('http://localhost:3000/getdistances', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(
+            { coordinates: [coordinates] }
+             
+            
+          ),
+        });
 
-  // Check if the coordinates are valid
-  if (!Array.isArray(hospitalCoordinates) || hospitalCoordinates.length !== 2) {
-    console.error('Invalid coordinates for hospital:', hospital);
-    return false; // Skip if coordinates are invalid
-  }
+        const data = await response.json();
+        if (response.ok && data.success) {
+          setNearestFacility(data.data); // Update the nearest facility state with fetched data
+          console.log('Nearest facility fetched successfully:', data.data);
+        } else {
+          console.error('Failed to fetch nearest facility');
+        }
+      } catch (error) {
+        console.error('Error fetching nearest facility:', error);
+      }
+    } else {
+      console.log('Location is not available yet');
+    }
+  };
 
-  const [lon, lat] = hospitalCoordinates; // Ensure correct order: [longitude, latitude]
+  // Function to check if a point (hospital) is inside the polygon
+  const isHospitalInPolygon = (hospital) => {
+    const hospitalCoordinates = hospital.geometry.coordinates;
 
-  // Ensure the coordinates are numbers
-  if (isNaN(lon) || isNaN(lat)) {
-    console.error('Invalid coordinate values:', hospitalCoordinates);
-    return false; // Skip if coordinates are not valid numbers
-  }
+    // Check if the coordinates are valid
+    if (!Array.isArray(hospitalCoordinates) || hospitalCoordinates.length !== 2) {
+      console.error('Invalid coordinates for hospital:', hospital);
+      return false; // Skip if coordinates are invalid
+    }
 
-  const polygon = turf.polygon([generatePolygonCoordinates(userLocation.lat, userLocation.lon)]);
-  const point = turf.point([lon, lat]);
+    const [lon, lat] = hospitalCoordinates; // Ensure correct order: [longitude, latitude]
 
-  return turf.booleanPointInPolygon(point, polygon); // Check if hospital is within the polygon
-};
+    // Ensure the coordinates are numbers
+    if (isNaN(lon) || isNaN(lat)) {
+      console.error('Invalid coordinate values:', hospitalCoordinates);
+      return false; // Skip if coordinates are not valid numbers
+    }
 
+    const polygon = turf.polygon([generatePolygonCoordinates(userLocation.lat, userLocation.lon)]);
+    const point = turf.point([lon, lat]);
+
+    return turf.booleanPointInPolygon(point, polygon); // Check if hospital is within the polygon
+  };
 
   return (
+    <>
     <div style={{ width: '100%', height: '600px' }}>
       <button onClick={handleSendLocation} disabled={!userLocation}>
         Send Location
       </button>
+      <button onClick={handleGetNearestFacility} disabled={!userLocation}>
+        Get Nearest Facility
+      </button>
+      
+    
       {userLocation && (
         <MapContainer
           center={[userLocation.lat, userLocation.lon]}
@@ -120,7 +156,8 @@ const isHospitalInPolygon = (hospital) => {
 
           {/* Render hospital markers based on the fetched data */}
           {hospitals.map((hospital, index) => {
-            const { name, email, internet_access,website,amenity,phone } = hospital.properties.tags;
+            const { name, email, internet_access, website, amenity, phone } =
+              hospital.properties.tags;
             const lat = hospital.geometry.coordinates[1];
             const lon = hospital.geometry.coordinates[0];
 
@@ -133,20 +170,53 @@ const isHospitalInPolygon = (hospital) => {
               <Marker key={index} position={[lat, lon]}>
                 <Popup>
                   <h3>{name}</h3>
-                  <p>email:<strong></strong> {email || 'N/A'}</p>
-                  <p><strong>phone:</strong> {phone || 'N/A'}</p>
-                  <p><strong>amenity:</strong> {amenity || 'N/A'}</p>
-                  <p><strong>Internet Access</strong> {internet_access || 'N/A'}</p>
-                  {website && <p><a href={website} target="_blank" rel="noopener noreferrer">Visit Website</a></p>}
+                  <p><strong>Email:</strong> {email || 'N/A'}</p>
+                  <p><strong>Phone:</strong> {phone || 'N/A'}</p>
+                  <p><strong>Amenity:</strong> {amenity || 'N/A'}</p>
+                  <p><strong>Internet Access:</strong> {internet_access || 'N/A'}</p>
+                  {website && (
+                    <p>
+                      <a href={website} target="_blank" rel="noopener noreferrer">
+                        Visit Website
+                      </a>
+                    </p>
+                  )}
                 </Popup>
               </Marker>
             );
           })}
+
+          {/* Render the nearest facility uniquely */}
+          {nearestFacility && (
+            <Marker
+              position={[
+                nearestFacility.geometry.coordinates[1],
+                nearestFacility.geometry.coordinates[0],
+              ]}
+              icon={L.icon({
+                iconUrl: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                iconSize: [32, 32],
+                iconAnchor: [16, 32],
+              })}
+            >
+              <Popup>
+                <h3>Nearest Facility</h3>
+                <p><strong>Name:</strong>{nearestFacility.name}</p>
+                <p><strong>Amenity:</strong> {nearestFacility.properties.tags.amenity || 'N/A'}</p>
+                <p><strong>Distance:</strong> {nearestFacility.distance} km</p>
+              </Popup>
+            </Marker>
+          )}
+           
         </MapContainer>
+       
+             
+      
       )}
        {/* Pass the setHospitals function to the Card component */}
        <Card setHospitals={setHospitals} />
     </div>
+    </>
   );
 };
 
