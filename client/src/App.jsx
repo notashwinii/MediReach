@@ -1,5 +1,5 @@
 
-import Home from "../src/pages/home/home";
+import Home from "../src/pages/home/home.jsx";
 import Dashboard from "./pages/dashboard/dashboard";
 import { Route , Routes} from 'react-router-dom';
 

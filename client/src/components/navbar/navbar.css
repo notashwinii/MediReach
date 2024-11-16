@@ -14,7 +14,7 @@
     display: flex;
     align-items: center;
     z-index: 1000; 
-    box-shadow: 0 0.25vh 5vh black;
+    
 }
 
 
@@ -23,25 +23,32 @@ img{
     height:7vh;
 }
 
-.logoplusname{
+.homeinfo{
     display:flex;
     margin-left:5vh;
     margin-right:7vh;
     color:white;
+    justify-content: space-between;
+    align-items: center;
     flex:3;
    
     
 }
 
-.navbar>.input{
+.navbar>.homeinfo>.input{
     height:3vh;
     /* border:solid; */
     flex:7;
     align-items: center;
+    border-radius: 25px;
+    width:60%;
+    height: 4vh; 
+    margin-bottom:1.5vh; 
+    margin-left:5vh;
     
 }
 
-.navbar>.profile{
+.navbar>.homeinfo>.profile{
     /* border:solid; */
     flex:1;
     margin-right:5vh;
@@ -59,6 +66,13 @@ input{
     height: 4vh; 
     margin-bottom:1.5vh; 
     margin-left:5vh;
+}
+
+.logoplusname{
+    margin-left: 20px;
+    display:flex;
+    flex-direction: row;
+    color:white;
 }
 
 .logoplusname>img{
@@ -93,3 +107,4 @@ input{
  :-ms-input-placeholder {  
     text-align: center; 
  }
+

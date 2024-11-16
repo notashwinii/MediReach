@@ -1,47 +1,228 @@
-/* Overall styling */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
+.home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(135deg, rgba(106, 186, 255, 0.5), rgba(255, 255, 255, 0.5));
+}
+
+.image_container {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.image_container > img {
+  position: absolute;
+  border-radius: 60px;
+  box-shadow: 1px solid #55b8bc;
+  top: 40px;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
   
-  /* Header styling */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #556c77;
-    padding: 10px 20px;
-    color: #fff;
+  opacity: 0.9; /* Start with a slightly lower opacity */
+  transition: transform 0.4s ease, opacity 0.4s ease; /* Smooth transitions for transform and opacity */
+}
+
+/* Hover effect for a slight zoom and opacity change */
+.image_container > img:hover {
+  transform: scale(1.05); /* Slight zoom-in effect */
+  opacity: 1; /* Full opacity on hover */
+}
+
+/* Fade-in animation for when the image loads */
+.image_container > img {
+  animation: fadeIn 1.2s ease-out forwards; /* Fade-in effect */
+}
+
+/* Keyframe for the fade-in effect */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(10%); /* Start with a slight horizontal offset */
   }
-  
-  /* Logo styling */
-  .logo {
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
+  to {
+    opacity: 0.9; /* Slight opacity */
+    transform: translateX(0); /* Move to the normal position */
   }
-  
-  .logo-icon {
-    margin-right: 8px;
-    font-size: 24px;
-    color: #3fc1c9; /* Teal color for the icon */
+}
+
+.content {
+  position: relative;
+  margin-right: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5% 10%;
+  z-index: 2;
+}
+
+.Slogan {
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: linear-gradient(45deg, #00a2a7, #003366);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: inline-block;
+  padding: 10px 0;
+}
+
+.Slogan::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #00a2a7, #003366);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease-in-out;
+}
+
+.Slogan:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.Slogan::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #00a2a7, #003366);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.Slogan:hover::after {
+  opacity: 1;
+}
+
+.Slogan div {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+
+
+
+button {
+  width: 220px;
+  height: 60px;
+  border: none;
+  border-radius: 30px;
+  background-color: #00a2a7;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-right: 10%;
+
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 162, 167, 0.1);
+}
+
+button:hover {
+  background-color: #008c91;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 162, 167, 0.2);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 162, 167, 0.5);
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  /* Larger tablet views (Portrait) */
+  .image_container > img {
+    width: 60%;
+    height: 100%;
+    opacity: 0.8; /* Keep opacity lower for larger screens */
   }
-  
-  /* Button styling */
-  .get-started {
-    background-color: #e6f7f8;
-    color: #3fc1c9;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 16px;
-    cursor: pointer;
-    text-decoration: none;
-    color: black;
+
+  .content {
+    margin-right: 40%;
+    padding: 8% 6%; /* Adjust padding for medium devices */
   }
-  
-  .get-started:hover {
-    background-color: #c4e3e5;
+
+  .Slogan div {
+    font-size: 3rem;
   }
-  
+
+  button {
+    width: 180px; /* Smaller button on medium screens */
+    height: 55px;
+    margin-left: 25%;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Tablet and smaller devices */
+  .image_container > img {
+    width: 100%;
+    height: 50%; /* Reduce image size */
+    opacity: 0.7; /* Lower opacity */
+  }
+
+  .content {
+    margin-right: 0;
+    padding: 12% 5%; /* More padding for smaller screens */
+  }
+
+  .Slogan div {
+    font-size: 2.5rem;
+  }
+
+  button {
+    width: 100%;
+    max-width: 250px; /* Ensure button is responsive on smaller screens */
+    height: 50px;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Mobile Screens */
+  .image_container > img {
+    width: 100%;
+    height: 50%;
+    opacity: 0.6; /* Slightly lower opacity on mobile */
+  }
+
+  .content {
+    padding: 15% 5%; /* Increased padding for mobile */
+  }
+
+  .Slogan div {
+    font-size: 2rem;
+  }
+
+  button {
+    width: 100%;
+    max-width: 220px;
+    height: 50px;
+  }
+}

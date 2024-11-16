@@ -1,134 +1,20 @@
 [
   {
-    "osm_id": 1,
-    "name": "Central City Hospital",
-    "location": {
-      "lat": 27.7172,
-      "long": 85.3240
-    },
-    "address": "Kathmandu, Nepal",
-    "open_hours": "24/7",
-    "equipment": {
-      "MRI": true,
-      "Ventilator": true,
-      "XRay": true
-    },
-    "beds": {
-      "total": 100,
-      "available": 20
-    },
-    "wards": {
-      "ICU": {
-        "doctors": 5,
-        "patients": 20
-      },
-      "Pediatric": {
-        "doctors": 3,
-        "patients": 15
-      },
-      "General": {
-        "doctors": 10,
-        "patients": 50
-      }
-    },
-    "diseases_specialized": [
-      "Cardiology",
-      "Orthopedic"
-    ],
-    "ambulance_available": true,
-    "distance_from_user": null
-  },
-  {
-    "osm_id": 2,
-    "name": "City Medical Center",
-    "location": {
-      "lat": 27.7000,
-      "long": 85.3333
-    },
-    "address": "Patan, Nepal",
-    "open_hours": "9:00 AM - 5:00 PM",
-    "equipment": {
-      "MRI": false,
-      "Ventilator": true,
-      "XRay": true
-    },
-    "beds": {
-      "total": 50,
-      "available": 10
-    },
-    "wards": {
-      "ICU": {
-        "doctors": 3,
-        "patients": 15
-      },
-      "Pediatric": {
-        "doctors": 2,
-        "patients": 20
-      },
-      "General": {
-        "doctors": 7,
-        "patients": 40
-      }
-    },
-    "diseases_specialized": [
-      "Orthopedic",
-      "Neurology"
-    ],
-    "ambulance_available": false,
-    "distance_from_user": null
-  },
-  {
-    "osm_id": 3,
-    "name": "Bright Hope Hospital",
-    "location": {
-      "lat": 27.7268,
-      "long": 85.3221
-    },
-    "address": "Lalitpur, Nepal",
-    "open_hours": "24/7",
-    "equipment": {
-      "MRI": true,
-      "Ventilator": true,
-      "XRay": false
-    },
-    "beds": {
-      "total": 70,
-      "available": 5
-    },
-    "wards": {
-      "ICU": {
-        "doctors": 4,
-        "patients": 10
-      },
-      "Pediatric": {
-        "doctors": 5,
-        "patients": 25
-      },
-      "General": {
-        "doctors": 12,
-        "patients": 60
-      }
-    },
-    "diseases_specialized": [
-      "Dermatology",
-      "Oncology"
-    ],
-    "ambulance_available": true,
-    "distance_from_user": null
-  },
-  {
     "osm_id": 4,
-    "name": "Evercare Clinic",
-    "location": {
-      "lat": 27.7219,
-      "long": 85.3195
-    },
-    "address": "Kathmandu, Nepal",
     "open_hours": "8:00 AM - 10:00 PM",
     "equipment": {
-      "MRI": false,
-      "Ventilator": false,
-      "XRay": true
+      "MRI": true,
+      "Ventilator": true,
+      "XRay": true,
+      "CT_Scanner": true,
+      "Ultrasound": true,
+      "ECG": true,
+      "Dialysis_Machine": true,
+      "Defibrillator": true,
+      "Oxygen_Supply": true,
+      "Operation_Theater": true,
+      "Laboratory_Equipment": true,
+      "Blood_Bank": true
     },
     "beds": {
       "total": 40,
@@ -146,12 +32,40 @@
       "General": {
         "doctors": 6,
         "patients": 30
+      },
+      "Maternity": {
+        "doctors": 2,
+        "patients": 5
+      },
+      "Surgical": {
+        "doctors": 3,
+        "patients": 7
+      },
+      "Orthopedic": {
+        "doctors": 1,
+        "patients": 4
+      },
+      "Cardiology": {
+        "doctors": 2,
+        "patients": 6
+      },
+      "Neurology": {
+        "doctors": 1,
+        "patients": 3
+      },
+      "Oncology": {
+        "doctors": 1,
+        "patients": 2
+      },
+      "Emergency": {
+        "doctors": 4,
+        "patients": 15
+      },
+      "Psychiatric": {
+        "doctors": 1,
+        "patients": 5
       }
     },
-    "diseases_specialized": [
-      "Pediatrics",
-      "Endocrinology"
-    ],
     "ambulance_available": false,
     "distance_from_user": null
   }

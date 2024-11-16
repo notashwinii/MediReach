@@ -10,6 +10,7 @@ const router = express.Router();
 
 // Route to fetch amenities within a radius
 router.post("/getdistances", getNearest);
+router.post("/getdistances", getNearest);
 
 router.post("/get-data", async (req, res) => {
   try {

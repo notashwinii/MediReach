@@ -3,7 +3,8 @@ import express from "express";
 import dotenv from "dotenv";
 
 // const Routes = require("./Routes/userRoutes");
-import Routes from "./Routes/userRoutes.js"
+import Routes from "./Routes/userRoutes.js";
+import hospitalRoutes from './Routes/hospitalRoutes.js';
 
 import cors from "cors";
 dotenv.config();
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/", Routes);
+app.use('/api', hospitalRoutes);
 
 const PORT = process.env.PORT || 3000;
 

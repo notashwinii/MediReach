@@ -9,21 +9,15 @@ const Dashboard = () => {
     <>
     <div className="app-layout">
     <header><Navbar /></header>
-    <aside> <Sidebar /></aside>
-    <div className="main-content">
     
+    <div className="main-content">
+    <Sidebar />
     <div className="map-container">
-            <div className="legend">
-              <p><span className="hospital-dot"></span> Hospital</p>
-              <p><span className="clinic-dot"></span> Clinic</p>
-              <p><span className="pharmacy-dot"></span> Pharmacy</p>
-            </div>
-
+        
             <div className="map-view">
               <Map/>
             </div>
-
-
+            
             <div className="zoom-controls">
               <button>+</button>
               <button>-</button>
