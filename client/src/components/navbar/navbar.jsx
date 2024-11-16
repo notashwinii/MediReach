@@ -3,7 +3,6 @@ import logo from './logo.png'
 import usericon from './profileicon.png'
  const navbar=({location})=>{
    
-   console.log(location);
    var bool;
    if(location==='/')
    {

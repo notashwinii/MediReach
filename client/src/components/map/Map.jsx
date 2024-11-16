@@ -6,8 +6,12 @@ import * as turf from '@turf/turf'; // Import turf for spatial operations
 import Card from '../card/card.jsx';
 
 const Map = () => {
+  
+  console.log('Cards'+Card);
+  
   const [userLocation, setUserLocation] = useState(null);
-  const [hospitals, setHospitals] = useState([]); // State to store hospital data
+  const [hospitals, setHospitals] = useState([]); // State to hold fetched hospitals
+
   const [nearestFacility, setNearestFacility] = useState(null); // State to store the nearest facility
 
   // Get the user's location using the Geolocation API
@@ -135,7 +139,7 @@ const Map = () => {
       <button onClick={handleGetNearestFacility} disabled={!userLocation}>
         Get Nearest Facility
       </button>
-      
+  
     
       {userLocation && (
         <MapContainer
@@ -210,10 +214,12 @@ const Map = () => {
            
         </MapContainer>
        
-             
+         
+          
       
       )}
     </div>
+ 
     </>
   );
 };

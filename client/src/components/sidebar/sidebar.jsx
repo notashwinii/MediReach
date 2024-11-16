@@ -2,6 +2,7 @@ import './sidebar.css';
 import FacilityFilter from '../facilityfilter/facilitytype.jsx';
 import RangeFilter from '../rangefilter/range.jsx';
 import ServicesFilter from '../servicefilter/servicetype.jsx';
+import Card from '../../components/card/card.jsx';
 import { useState } from 'react';
 
 const Sidebar = ({ facility, services }) => {
@@ -36,14 +37,8 @@ const Sidebar = ({ facility, services }) => {
                 <FacilityFilter 
                     options={facilityOptions} 
                     selectedFacilities={selectedFacilities} 
-                    onFacilityChange={handleFacilityChange} 
-                /> 
-                <RangeFilter  minValue={0} maxValue={10000}/>
-                <ServicesFilter 
-                    options={serviceOptions} 
-                    selectedServices={selectedServices} 
-                    onServiceChange={handleServiceChange} 
-                />
+                    onFacilityChange={handleFacilityChange} />
+                <Card/>
             </div>
         </div>
     );
