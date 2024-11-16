@@ -1,11 +1,6 @@
 [
   {
-    "osm_id": 1,
-    "name": "Central City Hospital",
-    "location": {
-      "lat": 27.7172,
-      "long": 85.3240
-    },
+    "osm_id": 230055223,
     "address": "Kathmandu, Nepal",
     "open_hours": "24/7",
     "equipment": {
@@ -40,11 +35,6 @@
   },
   {
     "osm_id": 2,
-    "name": "City Medical Center",
-    "location": {
-      "lat": 27.7000,
-      "long": 85.3333
-    },
     "address": "Patan, Nepal",
     "open_hours": "9:00 AM - 5:00 PM",
     "equipment": {
@@ -79,11 +69,6 @@
   },
   {
     "osm_id": 3,
-    "name": "Bright Hope Hospital",
-    "location": {
-      "lat": 27.7268,
-      "long": 85.3221
-    },
     "address": "Lalitpur, Nepal",
     "open_hours": "24/7",
     "equipment": {
@@ -118,11 +103,6 @@
   },
   {
     "osm_id": 4,
-    "name": "Evercare Clinic",
-    "location": {
-      "lat": 27.7219,
-      "long": 85.3195
-    },
     "address": "Kathmandu, Nepal",
     "open_hours": "8:00 AM - 10:00 PM",
     "equipment": {
