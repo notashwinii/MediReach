@@ -99,6 +99,11 @@ const isHospitalInPolygon = (hospital) => {
       <button onClick={handleSendLocation} disabled={!userLocation}>
         Send Location
       </button>
+      <div className="legend">
+              <p><span className="hospital-dot"></span> Hospital</p>
+              <p><span className="clinic-dot"></span> Clinic</p>
+              <p><span className="pharmacy-dot"></span> Pharmacy</p>
+            </div>
       {userLocation && (
         <MapContainer
           center={[userLocation.lat, userLocation.lon]}
