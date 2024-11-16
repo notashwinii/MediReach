@@ -1,17 +1,7 @@
 [
   {
     "clinic_id": 1,
-    "name": "Family Care Clinic",
-    "location": {
-      "lat": 27.7120,
-      "long": 85.3165
-    },
-    "address": "Thamel, Kathmandu",
     "open_hours": "10:00 AM - 6:00 PM",
-    "doctors_available": [
-      "Dr. Shrestha (General)",
-      "Dr. Lama (Pediatrics)"
-    ],
     "specializations": [
       "General Checkup",
       "Pediatrics"

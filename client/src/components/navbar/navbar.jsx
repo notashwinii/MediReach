@@ -1,5 +1,5 @@
 import './navbar.css'
-import logo from './logo.png'
+import logo from '/logo.png'
 import usericon from './profileicon.png'
  const navbar=({location})=>{
    
