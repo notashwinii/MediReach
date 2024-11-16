@@ -1,5 +1,4 @@
 import fetch from "node-fetch";
-import fetch from "node-fetch";
 
 const getData = async (coordinates, amenities) => {
   try {
@@ -10,8 +9,6 @@ const getData = async (coordinates, amenities) => {
     if (!Array.isArray(amenities) || amenities.length === 0) {
       throw new Error("Invalid input: Amenities must be a non-empty array.");
     }
-
-    console.log(amenities);
 
     // Construct the payload
     const payload = {
@@ -33,8 +30,6 @@ const getData = async (coordinates, amenities) => {
     };
 
     const apiUrl = "https://api-prod.raw-data.hotosm.org/v1/snapshot/plain/";
-
-    console.log(payload);
 
     console.log(payload);
 
