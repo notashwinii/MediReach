@@ -3,16 +3,16 @@ import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import * as turf from '@turf/turf'; // Import turf for spatial operations
-import Card from '../card/card.jsx';
+//import Card from '../card/card';
 
 const Map = () => {
   
   console.log('Cards'+Card);
   
   const [userLocation, setUserLocation] = useState(null);
-  const [hospitals, setHospitals] = useState([]); // State to hold fetched hospitals
-
-  const [nearestFacility, setNearestFacility] = useState(null); // State to store the nearest facility
+  const [hospitals, setHospitals] = useState([]); // State to store hospital data
+  const [nearestFacility,setNearestFacility]=useState([]);
+  
 
   // Get the user's location using the Geolocation API
   useEffect(() => {
@@ -218,6 +218,8 @@ const Map = () => {
           
       
       )}
+       {/* Pass the setHospitals function to the Card component */}
+       {/*<Card setHospitals={setHospitals} />*/}
     </div>
  
     </>
