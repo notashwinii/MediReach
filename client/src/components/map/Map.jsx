@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import * as turf from '@turf/turf'; // Import turf for spatial operations
+import Card from '../card/card.jsx';
 
 const Map = () => {
   const [userLocation, setUserLocation] = useState(null);
@@ -126,6 +127,7 @@ const Map = () => {
   };
 
   return (
+    <>
     <div style={{ width: '100%', height: '600px' }}>
       <button onClick={handleSendLocation} disabled={!userLocation}>
         Send Location
@@ -133,6 +135,7 @@ const Map = () => {
       <button onClick={handleGetNearestFacility} disabled={!userLocation}>
         Get Nearest Facility
       </button>
+      
     
       {userLocation && (
         <MapContainer
@@ -204,9 +207,14 @@ const Map = () => {
               </Popup>
             </Marker>
           )}
+           
         </MapContainer>
+       
+             
+      
       )}
     </div>
+    </>
   );
 };
 

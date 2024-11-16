@@ -22,7 +22,7 @@ import usericon from './profileicon.png'
        </div>
        {bool?<div className='homeinfo'>
        <div className='input'><input type="text" placeholder="Search Locations..."/></div>
-       <div className='profile'><a><img src={usericon}/></a></div>
+       
        </div>
        :null}
     </nav>

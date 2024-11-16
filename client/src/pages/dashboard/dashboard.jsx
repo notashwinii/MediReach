@@ -17,11 +17,7 @@ const Dashboard = () => {
             <div className="map-view">
               <Map/>
             </div>
-            <div className="legend">
-              <p><span className="hospital-dot"></span> Hospital</p>
-              <p><span className="clinic-dot"></span> Clinic</p>
-              <p><span className="pharmacy-dot"></span> Pharmacy</p>
-            </div>
+            
             <div className="zoom-controls">
               <button>+</button>
               <button>-</button>
