@@ -3,9 +3,10 @@ const router = express.Router();
 const { getAllData } = require("../Controllers/getAllData");
 const { getByAmenity } = require("../Controllers/getByAmenity");
 const { getData } = require("../utils/getData");
+const { getNearest } = require("../Controllers/getNearest");
 
-
- 
+// Route to fetch amenities within a radius
+router.post("/getNearest", getNearest);
 
 router.post("/get-data", async (req, res) => {
   try {
@@ -28,4 +29,4 @@ router.post("/get-data", async (req, res) => {
 router.post("/getAllData", getAllData);
 router.post("/getByAmenity", getByAmenity);
 
-module.exports = router;
+export default router;
