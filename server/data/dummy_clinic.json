@@ -1,0 +1,80 @@
+[
+  {
+    "clinic_id": 1,
+    "name": "Family Care Clinic",
+    "location": {
+      "lat": 27.7120,
+      "long": 85.3165
+    },
+    "address": "Thamel, Kathmandu",
+    "open_hours": "10:00 AM - 6:00 PM",
+    "doctors_available": [
+      "Dr. Shrestha (General)",
+      "Dr. Lama (Pediatrics)"
+    ],
+    "specializations": [
+      "General Checkup",
+      "Pediatrics"
+    ],
+    "appointment_required": true,
+    "distance_from_user": null
+  },
+  {
+    "clinic_id": 2,
+    "name": "Wellness Clinic",
+    "location": {
+      "lat": 27.7050,
+      "long": 85.3260
+    },
+    "address": "Lagankhel, Lalitpur",
+    "open_hours": "9:00 AM - 8:00 PM",
+    "doctors_available": [
+      "Dr. Acharya (Dermatology)",
+      "Dr. Karki (ENT)"
+    ],
+    "specializations": [
+      "Dermatology",
+      "ENT"
+    ],
+    "appointment_required": false,
+    "distance_from_user": null
+  },
+  {
+    "clinic_id": 3,
+    "name": "Prime Health Clinic",
+    "location": {
+      "lat": 27.7201,
+      "long": 85.3201
+    },
+    "address": "Kalanki, Kathmandu",
+    "open_hours": "24/7",
+    "doctors_available": [
+      "Dr. Rai (Orthopedic)",
+      "Dr. Sharma (Cardiology)"
+    ],
+    "specializations": [
+      "Orthopedic",
+      "Cardiology"
+    ],
+    "appointment_required": true,
+    "distance_from_user": null
+  },
+  {
+    "clinic_id": 4,
+    "name": "Healing Hands Clinic",
+    "location": {
+      "lat": 27.7295,
+      "long": 85.3170
+    },
+    "address": "Bhaktapur",
+    "open_hours": "8:00 AM - 5:00 PM",
+    "doctors_available": [
+      "Dr. Khadka (Physiotherapy)"
+    ],
+    "specializations": [
+      "Physiotherapy"
+    ],
+    "appointment_required": false,
+    "distance_from_user": null
+  }
+]

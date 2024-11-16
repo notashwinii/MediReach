@@ -1,0 +1,80 @@
+[
+  {
+    "pharmacy_id": 1,
+    "name": "Health Plus Pharmacy",
+    "location": {
+      "lat": 27.7172,
+      "long": 85.3240
+    },
+    "address": "New Road, Kathmandu",
+    "open_hours": "24/7",
+    "medicine_availability": [
+      "Paracetamol",
+      "Ibuprofen",
+      "Amoxicillin"
+    ],
+    "special_services": [
+      "Home Delivery",
+      "Blood Pressure Check"
+    ],
+    "distance_from_user": null
+  },
+  {
+    "pharmacy_id": 2,
+    "name": "Lifecare Pharmacy",
+    "location": {
+      "lat": 27.7000,
+      "long": 85.3333
+    },
+    "address": "Jawalakhel, Patan",
+    "open_hours": "8:00 AM - 10:00 PM",
+    "medicine_availability": [
+      "Insulin",
+      "Aspirin",
+      "Cough Syrup"
+    ],
+    "special_services": [
+      "Consultation",
+      "Home Delivery"
+    ],
+    "distance_from_user": null
+  },
+  {
+    "pharmacy_id": 3,
+    "name": "QuickMed Pharmacy",
+    "location": {
+      "lat": 27.7268,
+      "long": 85.3221
+    },
+    "address": "Pulchowk, Lalitpur",
+    "open_hours": "6:00 AM - 11:00 PM",
+    "medicine_availability": [
+      "Multivitamins",
+      "Antibiotics"
+    ],
+    "special_services": [
+      "Vaccination",
+      "Basic First Aid"
+    ],
+    "distance_from_user": null
+  },
+  {
+    "pharmacy_id": 4,
+    "name": "MediStore",
+    "location": {
+      "lat": 27.7219,
+      "long": 85.3195
+    },
+    "address": "Baneshwor, Kathmandu",
+    "open_hours": "7:00 AM - 9:00 PM",
+    "medicine_availability": [
+      "Painkillers",
+      "Allergy Medicine",
+      "Cough Syrup"
+    ],
+    "special_services": [
+      "Online Orders"
+    ],
+    "distance_from_user": null
+  }
+]
