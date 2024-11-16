@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+import fetch from "node-fetch";
 
 const getData = async (coordinates, amenities) => {
   try {
@@ -9,6 +9,8 @@ const getData = async (coordinates, amenities) => {
     if (!Array.isArray(amenities) || amenities.length === 0) {
       throw new Error("Invalid input: Amenities must be a non-empty array.");
     }
+
+    console.log(amenities);
 
     // Construct the payload
     const payload = {
@@ -31,6 +33,8 @@ const getData = async (coordinates, amenities) => {
 
     const apiUrl = "https://api-prod.raw-data.hotosm.org/v1/snapshot/plain/";
 
+    console.log(payload);
+
     // Make a POST request using fetch
     const response = await fetch(apiUrl, {
       method: "POST",
@@ -52,4 +56,4 @@ const getData = async (coordinates, amenities) => {
   }
 };
 
-module.exports = { getData };
+export default { getData };

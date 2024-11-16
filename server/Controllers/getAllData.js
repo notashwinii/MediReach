@@ -1,4 +1,4 @@
-const { getData } = require("../utils/getData");
+const { getData } = require("../utils/getData").default;
 
 const getAllData = async (req, res) => {
   try {
