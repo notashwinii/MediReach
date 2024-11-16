@@ -1,18 +1,11 @@
 [
   {
-    "pharmacy_id": 1,
-    "name": "Health Plus Pharmacy",
+    "osm_id": 1,
     "location": {
       "lat": 27.7172,
       "long": 85.3240
     },
-    "address": "New Road, Kathmandu",
     "open_hours": "24/7",
-    "medicine_availability": [
-      "Paracetamol",
-      "Ibuprofen",
-      "Amoxicillin"
-    ],
     "special_services": [
       "Home Delivery",
       "Blood Pressure Check"
