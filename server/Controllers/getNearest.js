@@ -1,80 +1,120 @@
-const getData = require("../utils/getData");
+import getData from "../utils/getData.js";
 
 // Haversine formula to calculate distance
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
-  const R = 6371; // Radius of Earth in kilometers
-  const dLat = ((lat2 - lat1) * Math.PI) / 180;
-  const dLon = ((lon2 - lon1) * Math.PI) / 180;
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const R = 6371; // Earth's radius in kilometers
+  const toRadians = (degree) => (degree * Math.PI) / 180;
+
+  const dLat = toRadians(lat2 - lat1);
+  const dLon = toRadians(lon2 - lon1);
+
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c; // Distance in kilometers
+  return R * c;
 };
 
-// Function to fetch amenities within a given radius
+// Validate coordinates format
+const isValidCoordinates = (coordinates) => {
+  return (
+    Array.isArray(coordinates) &&
+    coordinates.length === 2 &&
+    typeof coordinates[0] === "number" && // Longitude
+    typeof coordinates[1] === "number" && // Latitude
+    coordinates[0] >= -180 &&
+    coordinates[0] <= 180 && // Longitude bounds
+    coordinates[1] >= -90 &&
+    coordinates[1] <= 90
+  ); // Latitude bounds
+};
+
 const getNearest = async (req, res) => {
-  const { coordinates, distance } = req.body; // Extract coordinates and distance from request body
-  const amenityQuery = req.query.amenity; // Fetch amenity types from query parameters
-
   try {
-    // Validate coordinates
-    if (!coordinates || !Array.isArray(coordinates) || coordinates.length < 4) {
-      return res.status(400).json({ success: false, message: "Invalid or missing polygon coordinates." });
-    }
+    const { coordinates } = req.body; // Polygon coordinates
 
-    // Validate distance
-    if (!distance || typeof distance !== "number" || distance <= 0) {
-      return res.status(400).json({ success: false, message: "Invalid or missing distance." });
-    }
-
-    // Split and validate amenities
-    const amenities = amenityQuery ? amenityQuery.split(",") : ["hospital", "clinic", "pharmacy"];
-
-    const validAmenities = ["hospital", "clinic", "pharmacy"];
-    const invalidAmenities = amenities.filter((a) => !validAmenities.includes(a));
-
-    if (invalidAmenities.length > 0) {
+    // Validate the format of the coordinates (array of arrays)
+    if (!coordinates || !Array.isArray(coordinates[0]) || coordinates[0].length < 3) {
       return res.status(400).json({
         success: false,
-        message: `Invalid amenity types provided: ${invalidAmenities.join(", ")}`,
+        message: "Invalid polygon coordinates. Please provide a valid polygon as an array of coordinate pairs.",
       });
     }
 
-    // Fetch data for the specified amenities
-    const data = await getData(coordinates, amenities);
+    const polygon = coordinates[0]; // Extract the first polygon (if multiple)
+
+    // Calculate the centroid of the polygon
+    const centroid = polygon.reduce(
+      (acc, coord) => {
+        acc.latSum += coord[1];
+        acc.lonSum += coord[0];
+        return acc;
+      },
+      { latSum: 0, lonSum: 0 }
+    );
+
+    const centroidCoordinates = {
+      latitude: centroid.latSum / polygon.length,
+      longitude: centroid.lonSum / polygon.length,
+    };
+
+    const amenities = ["hospital", "clinic", "pharmacy"];
+
+    // Fetch data for amenities within the specified area
+    const data = await getData(polygon, amenities);
 
     if (!data || !data.features || data.features.length === 0) {
       return res.status(200).json({
         success: true,
-        data: [],
-        message: "No amenities found within the given area.",
+        data: null,
+        message: "No hospitals, clinics, or pharmacies found within the specified polygon.",
       });
     }
 
-    // Calculate approximate centroid of the polygon
-    const userCoordinates = {
-      latitude: (coordinates[0][1] + coordinates[2][1]) / 2,
-      longitude: (coordinates[0][0] + coordinates[2][0]) / 2,
-    };
-
-    // Filter and calculate distances for amenities within the given radius
+    // Filter amenities within a 10 km radius of the centroid
     const filteredAmenities = data.features
       .filter((feature) => {
+        if (!feature.geometry?.coordinates) return false;
         const [lon, lat] = feature.geometry.coordinates;
-        const dist = calculateDistance(userCoordinates.latitude, userCoordinates.longitude, lat, lon);
-        return dist <= distance;
+        const dist = calculateDistance(centroidCoordinates.latitude, centroidCoordinates.longitude, lat, lon);
+        return dist <= 10; // Only keep amenities within 10 km
       })
-      .map((feature) => ({
-        ...feature,
-        distance: calculateDistance(userCoordinates.latitude, userCoordinates.longitude, feature.geometry.coordinates[1], feature.geometry.coordinates[0]),
-      }));
+      .map((feature) => {
+        const dist = calculateDistance(centroidCoordinates.latitude, centroidCoordinates.longitude, feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
+        return {
+          ...feature,
+          distance: Number(dist.toFixed(2)), // Add distance in km
+        };
+      });
 
-    // Return filtered amenities
-    res.status(200).json({ success: true, data: filteredAmenities });
+    // Sort amenities by distance and get the closest one
+    const nearestAmenity = filteredAmenities.sort((a, b) => a.distance - b.distance)[0];
+
+    if (!nearestAmenity) {
+      return res.status(200).json({
+        success: true,
+        data: null,
+        message: "No amenities found within the 10 km radius.",
+      });
+    }
+
+    // Return the nearest amenity with metadata
+    return res.status(200).json({
+      success: true,
+      data: nearestAmenity,
+      metadata: {
+        distance: nearestAmenity.distance,
+        centerPoint: centroidCoordinates,
+        amenityType: nearestAmenity.properties.type,
+      },
+    });
   } catch (error) {
-    console.error("Error fetching amenities:", error.message);
-    res.status(500).json({ success: false, message: "An error occurred. Please try again." });
+    console.error("Error fetching nearest amenities:", error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while fetching the nearest amenity.",
+      error: error.message,
+    });
   }
 };
 
-export default { getNearest };
-
+export default getNearest;

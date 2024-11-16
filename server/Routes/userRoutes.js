@@ -1,14 +1,13 @@
-const router = Router();
-const getAllDatta = require("../Controllers/getAllData.js");
-const getByAmenityHospital = require("../Controllers/getByAmenityByHospital.js");
-const getData = rquire("../utils/getData.js");
-// import { getAllData } from "../Controllers/getAllData.js";
-const getNearest = require("../Controllers/getNearest.js");
-const getByAmenityClinic = require("../Controllers/getByAmenityClinic");
+import express from "express";
+import {getAllData} from "../Controllers/getAllData.js";
+import {getByAmenity} from "../Controllers/getByAmenity.js";
+import getData from "../utils/getData.js";
+import getNearest from "../Controllers/getNearest.js";
 
-const getByAmenityPharmacy = require("../Controllers/getByAmenityPharmacy.js");
+const router = express.Router();
 
-router.post("/getNearest", getNearest);
+// Route to fetch amenities within a radius
+router.post("/getdistances", getNearest);
 
 router.post("/get-data", async (req, res) => {
   try {
@@ -29,8 +28,6 @@ router.post("/get-data", async (req, res) => {
 });
 
 router.post("/getAllData", getAllData);
-// router.post("/getByAmenity", getByAmenityHospital);
-router.post("/getbyamenity", getByAmenityClinic);
-router.post("/GetByAmenity", getByAmenityPharmacy);
+router.post("/getByAmenity", getByAmenity);
 
 export default router;

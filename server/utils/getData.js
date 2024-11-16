@@ -56,4 +56,4 @@ const getData = async (coordinates, amenities) => {
   }
 };
 
-export default { getData };
+export default getData;

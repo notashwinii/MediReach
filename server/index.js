@@ -1,19 +1,16 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
-const Routes = require("./Routes/userRoutes.js");
 import express from "express";
 // const dotenv = require("dotenv");
 import dotenv from "dotenv";
 
 // const Routes = require("./Routes/userRoutes");
-import Routes from "./Routes"
-const cors = require("cors");
+import Routes from "./Routes/userRoutes.js"
 
+import cors from "cors";
 dotenv.config();
 
 const app = express();
 app.use(cors());
+
 app.use(express.json());
 
 app.use("/", Routes);

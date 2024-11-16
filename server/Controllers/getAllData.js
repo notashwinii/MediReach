@@ -1,6 +1,6 @@
-const { getData } = require("../utils/getData").default;
+import getData from "../utils/getData.js";
 
-const getAllData = async (req, res) => {
+export const getAllData = async (req, res) => {
   try {
     // Coordinates should be passed in the request body
     const { coordinates } = req.body;
@@ -36,5 +36,3 @@ const getAllData = async (req, res) => {
     });
   }
 };
-
-module.exports = { getAllData };
