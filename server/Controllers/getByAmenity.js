@@ -1,6 +1,6 @@
-const { getData } = require("../utils/getData");
+import { getData } from "../utils/getData.js";
 
-const getByAmenity = async (req, res) => {
+export const getByAmenity = async (req, res) => {
   try {
     const { coordinates } = req.body;
     const { amenity } = req.query;
@@ -11,8 +11,6 @@ const getByAmenity = async (req, res) => {
         message: "Invalid coordinates format. Coordinates must be a non-empty array.",
       });
     }
-
-    // console.log(amenity);
 
     if (!amenity) {
       return res.status(400).json({
@@ -25,7 +23,7 @@ const getByAmenity = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: data,
+      data,
     });
   } catch (error) {
     console.error("Error in getAmenityData:", error.message);
@@ -35,5 +33,3 @@ const getByAmenity = async (req, res) => {
     });
   }
 };
-
-module.exports = { getByAmenity };

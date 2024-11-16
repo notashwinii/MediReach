@@ -1,6 +1,7 @@
-const fetch = require("node-fetch");
 
-const getData = async (coordinates, amenities) => {
+import fetch from "node-fetch";
+
+export const getData = async (coordinates, amenities) => {
   try {
     // Ensure `coordinates` and `amenities` are valid
     if (!Array.isArray(coordinates) || coordinates.length === 0) {
@@ -55,5 +56,3 @@ const getData = async (coordinates, amenities) => {
     throw error;
   }
 };
-
-module.exports = { getData };
