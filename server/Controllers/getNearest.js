@@ -1,4 +1,4 @@
-const { getData } = require("../utils/getData");
+const getData = require("../utils/getData");
 
 // Haversine formula to calculate distance
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -13,7 +13,7 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 // Function to fetch amenities within a given radius
 const getNearest = async (req, res) => {
   const { coordinates, distance } = req.body; // Extract coordinates and distance from request body
-  const amenity = req.query.amenity; // Fetch amenity type from query parameters
+  const amenityQuery = req.query.amenity; // Fetch amenity types from query parameters
 
   try {
     // Validate coordinates
@@ -26,13 +26,18 @@ const getNearest = async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid or missing distance." });
     }
 
-    // Validate amenity (if provided)
-    if (amenity && !["hospital", "clinic", "pharmacy"].includes(amenity)) {
-      return res.status(400).json({ success: false, message: "Invalid amenity type provided." });
-    }
+    // Split and validate amenities
+    const amenities = amenityQuery ? amenityQuery.split(",") : ["hospital", "clinic", "pharmacy"];
 
-    // List of amenities to fetch
-    const amenities = amenity ? [amenity] : ["hospital", "clinic", "pharmacy"];
+    const validAmenities = ["hospital", "clinic", "pharmacy"];
+    const invalidAmenities = amenities.filter((a) => !validAmenities.includes(a));
+
+    if (invalidAmenities.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid amenity types provided: ${invalidAmenities.join(", ")}`,
+      });
+    }
 
     // Fetch data for the specified amenities
     const data = await getData(coordinates, amenities);
@@ -71,4 +76,4 @@ const getNearest = async (req, res) => {
   }
 };
 
-module.exports = { getNearest };
+export default { getNearest };
