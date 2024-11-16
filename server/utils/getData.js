@@ -31,8 +31,6 @@ const getData = async (coordinates, amenities) => {
 
     const apiUrl = "https://api-prod.raw-data.hotosm.org/v1/snapshot/plain/";
 
-    console.log(payload);
-
     // Make a POST request using fetch
     const response = await fetch(apiUrl, {
       method: "POST",
