@@ -35,18 +35,6 @@ img{
     
 }
 
-.navbar>.homeinfo>.input{
-    height:3vh;
-    /* border:solid; */
-    flex:7;
-    align-items: center;
-    border-radius: 25px;
-    width:60%;
-    height: 4vh; 
-    margin-bottom:1.5vh; 
-    margin-left:5vh;
-    
-}
 
 .navbar>.homeinfo>.profile{
     /* border:solid; */
@@ -60,12 +48,10 @@ a{
     
 }
 
-input{
-    border-radius: 25px;
-    width:60%;
+.input{
+    border-radius: 12px;
+    width:24rem;
     height: 4vh; 
-    margin-bottom:1.5vh; 
-    margin-left:5vh;
 }
 
 .logoplusname{

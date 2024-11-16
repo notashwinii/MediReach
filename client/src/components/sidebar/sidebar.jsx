@@ -3,6 +3,7 @@ import FacilityFilter from '../facilityfilter/facilitytype.jsx';
 import RangeFilter from '../rangefilter/range.jsx';
 import ServicesFilter from '../servicefilter/servicetype.jsx';
 import { useState } from 'react';
+import MultiRangeSelector from '../utils/MultiRangeSelector.jsx';
 
 const Sidebar = ({ facility, services }) => {
     const [selectedFacilities, setSelectedFacilities] = useState([]);
@@ -30,15 +31,15 @@ const Sidebar = ({ facility, services }) => {
     const serviceOptions=["Emergency Care","ICU","Pediatrics","Surgery"]
 
     return (
-        <div className="sidebar">
-            <p>Filters</p>
-            <div className='Filters'>
+        <div className="sidebar p-4 space-y-4">
+            <p className='text-xl font-bold text-left   '>Filters</p>
+            <div className=''>
                 <FacilityFilter 
                     options={facilityOptions} 
                     selectedFacilities={selectedFacilities} 
                     onFacilityChange={handleFacilityChange} 
                 /> 
-                <RangeFilter  minValue={0} maxValue={10000}/>
+                <MultiRangeSelector min={0} max={10000}/ >
                 <ServicesFilter 
                     options={serviceOptions} 
                     selectedServices={selectedServices} 

@@ -6,14 +6,13 @@
     height: calc(100vh - 10vh); 
     background-color: rgb(28,59,75);
     color: white;
-    padding:2vh;
     box-sizing: border-box;
    
        
 }
 
-.Filters{
+/* .Filters{
     display:flex;
     flex-direction:column;
     height:75%;
-}
+} */
