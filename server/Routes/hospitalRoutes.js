@@ -1,21 +1,40 @@
-
-import express from 'express';
-import { recommendHospitals } from '../algorithm/score.js';
+import express from "express";
+import dummyData from "../data/dummy_hospital.json"; // Load hospital data
+import { calculateFinalScore, classifyHospital } from "../algorithm/score.js";
 
 const router = express.Router();
 
-router.post('/recommend-hospitals', (req, res) => {
+router.post("/recommend-hospitals", (req, res) => {
   try {
-    const { userLocation, weights } = req.body; // Expect user's location and optional weights in the request
+    const { selectedParams } = req.body;
 
-    if (!userLocation || !userLocation.lat || !userLocation.long) {
-      return res.status(400).json({ success: false, message: 'Invalid user location' });
+    if (!Array.isArray(selectedParams) || selectedParams.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No parameters selected for scoring.",
+      });
     }
 
-    const recommendations = recommendHospitals(userLocation, weights);
-    res.status(200).json({ success: true, recommendations });
+    const recommendations = dummyData.map((hospital) => {
+      const score = calculateFinalScore(hospital, selectedParams);
+      const classification = classifyHospital(score);
+      return {
+        ...hospital,
+        score,
+        classification,
+      };
+    });
+
+    res.status(200).json({
+      success: true,
+      data: recommendations,
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.error("Error in /recommend-hospitals:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
   }
 });
 
