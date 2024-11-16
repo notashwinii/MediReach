@@ -1,4 +1,4 @@
-import { getData } from "../utils/getData.js";
+import getData from "../utils/getData.js";
 
 export const getByAmenity = async (req, res) => {
   try {

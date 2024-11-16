@@ -1,7 +1,6 @@
-
 import fetch from "node-fetch";
 
-export const getData = async (coordinates, amenities) => {
+const getData = async (coordinates, amenities) => {
   try {
     // Ensure `coordinates` and `amenities` are valid
     if (!Array.isArray(coordinates) || coordinates.length === 0) {
@@ -56,3 +55,5 @@ export const getData = async (coordinates, amenities) => {
     throw error;
   }
 };
+
+export default getData;

@@ -1,5 +1,4 @@
-
-import { getData } from "../utils/getData.js";
+import getData from "../utils/getData.js";
 
 export const getAllData = async (req, res) => {
   try {

@@ -1,13 +1,13 @@
 import express from "express";
-import { getAllData } from "../Controllers/getAllData.js";
-import { getByAmenity } from "../Controllers/getByAmenity.js";
-import { getData } from "../utils/getData.js";
-//import { getNearest } from "../Controllers/getNearest.js";
+import {getAllData} from "../Controllers/getAllData.js";
+import {getByAmenity} from "../Controllers/getByAmenity.js";
+import getData from "../utils/getData.js";
+import getNearest from "../Controllers/getNearest.js";
 
 const router = express.Router();
 
 // Route to fetch amenities within a radius
-//router.post("/getNearest", getNearest);
+router.post("/getdistances", getNearest);
 
 router.post("/get-data", async (req, res) => {
   try {
@@ -31,4 +31,3 @@ router.post("/getAllData", getAllData);
 router.post("/getByAmenity", getByAmenity);
 
 export default router;
-
