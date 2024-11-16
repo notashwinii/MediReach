@@ -15,16 +15,17 @@ import usericon from './profileicon.png'
 
 
     return (
-    <nav className="navbar">
+    <nav className="navbar shadow-md ">
        <div className="logoplusname">
         <img src={logo} alt="Logo"/>
         <p>MediReach</p>
        </div>
-       {bool?<div className='homeinfo'>
-       <div className='input'><input type="text" placeholder="Search Locations..."/></div>
+
+       <div className='flex items-center w-full  justify-center'>
+       <input type="text" className='input' placeholder="Search Locations..."/>
        
+
        </div>
-       :null}
     </nav>
      );
 }

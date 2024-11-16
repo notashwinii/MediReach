@@ -127,6 +127,12 @@ const Map = () => {
     return turf.booleanPointInPolygon(point, polygon); // Check if hospital is within the polygon
   };
 
+  useEffect(() => {
+    handleSendLocation();
+    handleGetNearestFacility();
+
+  }, [])
+
   return (
     <>
     <div style={{ width: '100%', height: '600px' }}>
@@ -188,7 +194,7 @@ const Map = () => {
           })}
 
           {/* Render the nearest facility uniquely */}
-          {nearestFacility && (
+          {nearestFacility.geometry && (
             <Marker
               position={[
                 nearestFacility.geometry.coordinates[1],
